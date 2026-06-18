@@ -1,4 +1,4 @@
-# Aoun — Unified Charity Data Engineering Platform
+﻿# Aoun â€” Unified Charity Data Engineering Platform
 
 Aoun is an end-to-end **Data Engineering Capstone Project** designed to unify fragmented charity operations into a trusted analytical ecosystem.
 The platform integrates data from multiple charity organizations and transforms operational records into governed, quality-checked, decision-ready analytics.
@@ -28,15 +28,6 @@ The following architecture shows the full data flow from operational systems to 
 ![Aoun Data Engineering Architecture](docs/architecture.png)
 
 ---
-## Project Demo
-
-The following demo video presents the main workflow of the Aoun platform, including the operational interface, data engineering pipeline, data warehouse outputs, and Power BI analytics.
-
-[![Watch the Aoun Demo](docs/media/demo-thumbnail.png)](docs/media/demo.mp4)
-
-> Click the image above to watch the demo video.
-
-
 ## End-to-End Data Pipeline
 
 The project follows a complete data engineering lifecycle:
@@ -171,16 +162,16 @@ The Power BI dashboards include high-level indicators such as:
 
 ```text
 aoun-data-engineering-platform/
-│
-├── backend/                     # FastAPI backend services
-├── frontend/                    # React frontend application
-├── database_setup/              # SQL Server setup scripts
-├── data_engineering/            # DE pipeline scripts and jobs
-├── infra/                       # Docker Compose infrastructure
-├── DWH_Scripts_For_Analyst/     # Data Warehouse loading and validation scripts
-├── docs/                        # Project documentation and architecture images
-├── README.md                    # Project documentation
-└── .gitignore                   # Ignored local/generated files
+â”‚
+â”œâ”€â”€ backend/                     # FastAPI backend services
+â”œâ”€â”€ frontend/                    # React frontend application
+â”œâ”€â”€ database_setup/              # SQL Server setup scripts
+â”œâ”€â”€ data_engineering/            # DE pipeline scripts and jobs
+â”œâ”€â”€ infra/                       # Docker Compose infrastructure
+â”œâ”€â”€ DWH_Scripts_For_Analyst/     # Data Warehouse loading and validation scripts
+â”œâ”€â”€ docs/                        # Project documentation and architecture images
+â”œâ”€â”€ README.md                    # Project documentation
+â””â”€â”€ .gitignore                   # Ignored local/generated files
 ```
 
 ---
@@ -295,3 +286,21 @@ Aoun demonstrates how trusted, governed, and connected data can transform charit
 
 When charity data becomes unified and quality-checked, it becomes more than operational records.
 It becomes a strategic asset for transparency, social impact, and better decision-making.
+
+## Demo Videos
+
+### Full System Demo
+
+Watch the full Aoun platform demo on Google Drive:
+
+[▶ Watch Full System Demo](https://drive.google.com/file/d/1vadry2LjyNKlsz3M-p1iVAWSinWeuian/view?usp=sharing)
+
+This demo presents the main workflow of the Aoun platform, including the operational interface, data pipeline, data warehouse outputs, and analytics flow.
+
+### Power BI Dashboard Demo
+
+Watch the Power BI dashboard walkthrough on Google Drive:
+
+[📊 Watch Power BI Dashboard Demo](https://drive.google.com/file/d/1Ymy9DvYHhXRdCB9QAOGXgFYpx9x9cpVX/view?usp=sharing)
+
+This video demonstrates the dashboard insights, KPIs, analytical outputs, and visual reporting generated from the Aoun Data Engineering pipeline.
