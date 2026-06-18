@@ -28,6 +28,14 @@ The following architecture shows the full data flow from operational systems to 
 ![Aoun Data Engineering Architecture](docs/architecture.png)
 
 ---
+## Project Demo
+
+The following demo video presents the main workflow of the Aoun platform, including the operational interface, data engineering pipeline, data warehouse outputs, and Power BI analytics.
+
+[![Watch the Aoun Demo](docs/media/demo-thumbnail.png)](docs/media/demo.mp4)
+
+> Click the image above to watch the demo video.
+
 
 ## End-to-End Data Pipeline
 
