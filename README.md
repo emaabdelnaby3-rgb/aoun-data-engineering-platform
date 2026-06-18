@@ -275,8 +275,9 @@ Supervised by:
 
 * Dr. Rania ElGohary
 * Dr. Mohamed El Badawi
-* Eng. Engy Ayman
-* Eng. Sama
+* Dr. Engy Abdelazeim
+* Eng. Abdelrahman musa 
+* Eng. Sama 
 
 ---
 
