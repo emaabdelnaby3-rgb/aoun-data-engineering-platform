@@ -1,0 +1,19 @@
+﻿{
+    "name":  "food_bank_sqlserver_connector",
+    "config":  {
+                   "connector.class":  "io.debezium.connector.sqlserver.SqlServerConnector",
+                   "database.encrypt":  "false",
+                   "database.user":  "charity_app_user",
+                   "database.names":  "charity_food_bank_operational",
+                   "schema.history.internal.kafka.bootstrap.servers":  "kafka:29092",
+                   "database.port":  "1433",
+                   "topic.prefix":  "food_bank",
+                   "schema.history.internal.kafka.topic":  "schemahistory.food_bank",
+                   "database.hostname":  "sqlserver",
+                   "database.password":  "CharityApp@2026",
+                   "name":  "food_bank_sqlserver_connector",
+                   "database.trustServerCertificate":  "true",
+                   "table.include.list":  "dbo.beneficiaries,dbo.applications,dbo.cases,dbo.donors,dbo.donations,dbo.inventory_items,dbo.inventory_transactions,dbo.beneficiary_documents,dbo.source_event_outbox",
+                   "snapshot.mode":  "initial"
+               }
+}

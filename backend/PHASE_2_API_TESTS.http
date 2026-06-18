@@ -1,0 +1,75 @@
+### Phase 2 Health
+GET http://localhost:8000/api/phase2/health
+
+### Submit beneficiary application
+POST http://localhost:8000/api/phase2/beneficiary/applications
+Content-Type: application/json
+
+{
+  "national_id": "29801011234567",
+  "full_name": "سارة أحمد",
+  "phone": "01011111111",
+  "governorate": "القاهرة",
+  "city": "مدينة نصر",
+  "address": "شارع النصر",
+  "family_size": 6,
+  "monthly_income": 1200,
+  "support_type": "دعم شهري",
+  "requested_amount": 3000,
+  "organization_id": 1,
+  "children_count": 4,
+  "has_chronic_disease": true,
+  "has_disability": false,
+  "is_widow_or_single_mother": true,
+  "rent_amount": 1800,
+  "emergency_level": "MEDIUM",
+  "public_case_description": "أسرة تحتاج دعم شهري للغذاء والإيجار"
+}
+
+### List admin applications scoped to Food Bank
+GET http://localhost:8000/api/phase2/admin/applications?organization_id=1
+
+### Approve application and create case
+POST http://localhost:8000/api/phase2/admin/applications/APP-00001/review
+Content-Type: application/json
+
+{
+  "decision": "APPROVED",
+  "notes": "المستندات صحيحة والحالة مستحقة",
+  "create_case": true,
+  "required_amount": 3000,
+  "case_title": "دعم شهري لأسرة محتاجة",
+  "public_display_name": "أسرة محتاجة - القاهرة",
+  "documents_verified": true,
+  "is_monthly_case": true
+}
+
+### Donor available cases
+GET http://localhost:8000/api/phase2/donor/cases?only_available=true
+
+### Add favorite
+POST http://localhost:8000/api/phase2/donor/favorites
+Content-Type: application/json
+
+{
+  "case_code": "CASE-00001",
+  "donor_phone": "01022222222"
+}
+
+### Donate to case
+POST http://localhost:8000/api/phase2/donor/donations
+Content-Type: application/json
+
+{
+  "case_code": "CASE-00001",
+  "donor_name": "محمد علي",
+  "donor_phone": "01022222222",
+  "amount": 3000,
+  "payment_method": "Cash"
+}
+
+### Support profiles for charity admin
+GET http://localhost:8000/api/phase2/support-profiles?organization_id=1
+
+### Government dashboard
+GET http://localhost:8000/api/phase2/government/dashboard

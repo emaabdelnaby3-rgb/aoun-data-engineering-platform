@@ -1,0 +1,39 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Charity CDC Event Envelope",
+  "description": "Generic Debezium-style CDC event envelope used for charity operational database changes.",
+  "type": "object",
+  "required": ["payload"],
+  "properties": {
+    "schema": {
+      "type": ["object", "null"]
+    },
+    "payload": {
+      "type": "object",
+      "required": ["source", "op"],
+      "properties": {
+        "before": {
+          "type": ["object", "null"]
+        },
+        "after": {
+          "type": ["object", "null"]
+        },
+        "source": {
+          "type": "object"
+        },
+        "op": {
+          "type": "string",
+          "enum": ["c", "u", "d", "r"]
+        },
+        "ts_ms": {
+          "type": ["integer", "null"]
+        },
+        "transaction": {
+          "type": ["object", "null"]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

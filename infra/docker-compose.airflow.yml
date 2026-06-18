@@ -1,0 +1,108 @@
+﻿services:
+  airflow-postgres:
+    image: postgres:15
+    container_name: ucp_airflow_postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: ChangeMe_Postgres_2026!
+      POSTGRES_DB: airflow
+    ports:
+      - "5434:5432"
+    volumes:
+      - airflow_postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
+
+  airflow-init:
+    build:
+      context: ./airflow
+    image: ucp_airflow:2.9.3-python3.11-dockercli
+    container_name: ucp_airflow_init
+    depends_on:
+      - airflow-postgres
+    user: "0:0"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres:5432/airflow
+      AIRFLOW__WEBSERVER__SECRET_KEY: ChangeMe_Airflow_Secret_Key_2026!
+      AIRFLOW__API__AUTH_BACKENDS: airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session
+    volumes:
+      - ../data_engineering/de14_airflow_orchestration/dags:/opt/airflow/dags
+      - ../data_engineering/de14_airflow_orchestration/logs:/opt/airflow/logs
+      - ../data_engineering/de14_airflow_orchestration/plugins:/opt/airflow/plugins
+      - ../data_engineering:/opt/airflow/data_engineering
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: >
+      bash -c "
+      airflow db migrate &&
+      airflow users create
+      --username admin
+      --firstname UCP
+      --lastname Admin
+      --role Admin
+      --email admin@ucp.local
+      --password admin
+      || true
+      "
+    networks:
+      - default
+
+  airflow-webserver:
+    image: ucp_airflow:2.9.3-python3.11-dockercli
+    container_name: ucp_airflow_webserver
+    depends_on:
+      - airflow-postgres
+    user: "0:0"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres:5432/airflow
+      AIRFLOW__WEBSERVER__SECRET_KEY: ChangeMe_Airflow_Secret_Key_2026!
+      AIRFLOW__API__AUTH_BACKENDS: airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session
+    ports:
+      - "8088:8080"
+    volumes:
+      - ../data_engineering/de14_airflow_orchestration/dags:/opt/airflow/dags
+      - ../data_engineering/de14_airflow_orchestration/logs:/opt/airflow/logs
+      - ../data_engineering/de14_airflow_orchestration/plugins:/opt/airflow/plugins
+      - ../data_engineering:/opt/airflow/data_engineering
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: webserver
+    networks:
+      - default
+
+  airflow-scheduler:
+    image: ucp_airflow:2.9.3-python3.11-dockercli
+    container_name: ucp_airflow_scheduler
+    depends_on:
+      - airflow-postgres
+      - airflow-webserver
+    user: "0:0"
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "false"
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@airflow-postgres:5432/airflow
+      AIRFLOW__WEBSERVER__SECRET_KEY: ChangeMe_Airflow_Secret_Key_2026!
+      AIRFLOW__API__AUTH_BACKENDS: airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session
+    volumes:
+      - ../data_engineering/de14_airflow_orchestration/dags:/opt/airflow/dags
+      - ../data_engineering/de14_airflow_orchestration/logs:/opt/airflow/logs
+      - ../data_engineering/de14_airflow_orchestration/plugins:/opt/airflow/plugins
+      - ../data_engineering:/opt/airflow/data_engineering
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: scheduler
+    networks:
+      - default
+
+volumes:
+  airflow_postgres_data:
+
+networks:
+  default:
+    external: true
+    name: infra_default
+

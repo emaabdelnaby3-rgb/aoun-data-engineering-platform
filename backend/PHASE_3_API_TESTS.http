@@ -1,0 +1,57 @@
+﻿@base=http://localhost:8000
+
+### Health
+GET {{base}}/api/phase3/health
+
+### Reference data
+GET {{base}}/api/phase3/reference-data
+
+### Login government
+POST {{base}}/api/phase3/auth/login
+Content-Type: application/json
+
+{
+  "identifier": "gov@test.com",
+  "password": "demo-password"
+}
+
+### Donor cases
+GET {{base}}/api/phase3/donor/cases
+
+### Submit beneficiary application
+POST {{base}}/api/phase3/beneficiary/applications
+Content-Type: application/json
+
+{
+  "full_name": "Ø§Ø®ØªØ¨Ø§Ø± Ù…Ø³ØªÙÙŠØ¯",
+  "phone": "01099999999",
+  "email": "test-beneficiary@example.com",
+  "national_id": "29901011234567",
+  "governorate_id": 1,
+  "city_id": 1,
+  "organization_id": 1,
+  "support_type_id": 1,
+  "requested_amount": 3000,
+  "family_size": 6,
+  "monthly_income": 1200,
+  "children_count": 4,
+  "has_chronic_disease": true,
+  "has_disability": false,
+  "is_widow_or_single_mother": true,
+  "rent_amount": 1800,
+  "emergency_level": "HIGH",
+  "public_case_description": "Ø­Ø§Ù„Ø© Ø§Ø®ØªØ¨Ø§Ø± Ù„Ù„Ø¹Ø±Ø¶"
+}
+
+### Admin applications
+GET {{base}}/api/phase3/admin/applications?organization_id=1
+
+### Support profiles
+GET {{base}}/api/phase3/admin/support-profiles
+
+### Beneficiary 360
+GET {{base}}/api/phase3/beneficiaries/360?national_id=2990101123456
+
+### DWH overview
+GET {{base}}/api/phase3/government/dwh-overview
+

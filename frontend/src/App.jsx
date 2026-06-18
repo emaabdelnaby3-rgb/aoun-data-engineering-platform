@@ -1,0 +1,1476 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  AlertTriangle, BarChart3, Building2, CheckCircle2, ClipboardCheck, Database, FileText, FileUp, Gift, HandCoins, Heart, Home, Landmark, ListChecks, Loader2, LogOut, Package, RefreshCcw, Search, ShieldAlert, Sparkles, Upload, User, Users, Wallet, XCircle, ShieldCheck,
+} from 'lucide-react';
+import { phase3Api } from './phase3Api';
+
+
+
+
+function DemoCard({ title, subtitle, children }) {
+  return (
+    <div dir="rtl" style={{ padding: "32px", minHeight: "100vh", background: "linear-gradient(135deg, #fffaf0, #f0fdf4)" }}>
+      <div style={{
+        maxWidth: "1100px",
+        margin: "0 auto",
+        background: "rgba(255,255,255,0.95)",
+        border: "1px solid #dbeafe",
+        borderRadius: "24px",
+        padding: "28px",
+        boxShadow: "0 20px 45px rgba(15,23,42,0.08)"
+      }}>
+        <h1 style={{ margin: 0, fontSize: "34px", fontWeight: 900, color: "#0f172a" }}>{title}</h1>
+        <p style={{ marginTop: "10px", color: "#64748b", fontSize: "16px" }}>{subtitle}</p>
+        <div style={{ marginTop: "28px" }}>{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function ApplyPage() {
+  return (
+    <DemoCard
+      title={"\u062a\u0642\u062f\u064a\u0645 \u0637\u0644\u0628 \u062f\u0639\u0645"}
+      subtitle={"\u0646\u0645\u0648\u0630\u062c \u062f\u064a\u0645\u0648 \u0644\u0631\u062d\u0644\u0629 \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f \u0641\u064a \u062a\u0642\u062f\u064a\u0645 \u0637\u0644\u0628 \u062f\u0639\u0645 \u062f\u0627\u062e\u0644 \u0645\u0646\u0635\u0629 \u0639\u0648\u0646."}
+    >
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "16px" }}>
+        {[
+          ["\u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f", "\u062a\u0645 \u062a\u0633\u062c\u064a\u0644 \u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a"],
+          ["\u0646\u0648\u0639 \u0627\u0644\u062f\u0639\u0645", "\u062f\u0639\u0645 \u063a\u0630\u0627\u0626\u064a / \u0637\u0628\u064a / \u0645\u0627\u0644\u064a"],
+          ["\u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a", "\u062c\u0627\u0631\u064a \u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0629"],
+          ["\u062d\u0627\u0644\u0629 \u0627\u0644\u0637\u0644\u0628", "\u062a\u062d\u062a \u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0629"]
+        ].map(([label, value]) => (
+          <div key={label} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "18px", padding: "22px" }}>
+            <div style={{ color: "#64748b", fontWeight: 700 }}>{label}</div>
+            <div style={{ marginTop: "10px", color: "#064e3b", fontSize: "22px", fontWeight: 900 }}>{value}</div>
+          </div>
+        ))}
+      </div>
+    </DemoCard>
+  );
+}
+
+function DocumentsPage() {
+  return (
+    <DemoCard
+      title={"\u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a"}
+      subtitle={"\u0639\u0631\u0636 \u062d\u0627\u0644\u0629 \u0645\u0633\u062a\u0646\u062f\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f \u0648\u062a\u062a\u0628\u0639 \u0639\u0645\u0644\u064a\u0629 \u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0629."}
+    >
+      <div style={{ display: "grid", gap: "12px" }}>
+        {[
+          ["\u0628\u0637\u0627\u0642\u0629 \u0627\u0644\u0631\u0642\u0645 \u0627\u0644\u0642\u0648\u0645\u064a", "\u062a\u0645 \u0627\u0644\u062a\u062d\u0642\u0642"],
+          ["\u0625\u062b\u0628\u0627\u062a \u0627\u0644\u062f\u062e\u0644", "\u0642\u064a\u062f \u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0629"],
+          ["\u0628\u062d\u062b \u0627\u062c\u062a\u0645\u0627\u0639\u064a", "\u0645\u0637\u0644\u0648\u0628"]
+        ].map(([doc, status]) => (
+          <div key={doc} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "14px", padding: "18px", display: "flex", justifyContent: "space-between" }}>
+            <strong>{doc}</strong>
+            <span style={{ color: "#047857", fontWeight: 800 }}>{status}</span>
+          </div>
+        ))}
+      </div>
+    </DemoCard>
+  );
+}
+
+function ApplicationsPage() {
+  return (
+    <DemoCard
+      title={"\u0637\u0644\u0628\u0627\u062a\u064a"}
+      subtitle={"\u0645\u062a\u0627\u0628\u0639\u0629 \u062d\u0627\u0644\u0629 \u0637\u0644\u0628\u0627\u062a \u0627\u0644\u062f\u0639\u0645 \u0648\u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0627\u062a."}
+    >
+      <div style={{ display: "grid", gap: "12px" }}>
+        {[
+          ["APP-DEMO-001", "\u062f\u0639\u0645 \u063a\u0630\u0627\u0626\u064a", "\u0645\u0642\u0628\u0648\u0644"],
+          ["APP-DEMO-002", "\u062f\u0639\u0645 \u0637\u0628\u064a", "\u062a\u062d\u062a \u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0629"],
+          ["APP-DEMO-003", "\u062f\u0639\u0645 \u0645\u0627\u0644\u064a", "\u064a\u062d\u062a\u0627\u062c \u0645\u0633\u062a\u0646\u062f\u0627\u062a"]
+        ].map(([code, type, status]) => (
+          <div key={code} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "14px", padding: "18px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
+            <strong>{code}</strong>
+            <span>{type}</span>
+            <span style={{ color: "#047857", fontWeight: 800 }}>{status}</span>
+          </div>
+        ))}
+      </div>
+    </DemoCard>
+  );
+}
+
+function SupportHistoryPage() {
+  return (
+    <DemoCard
+      title={"\u0633\u062c\u0644 \u0627\u0644\u062f\u0639\u0645"}
+      subtitle={"\u0639\u0631\u0636 \u0627\u0644\u062f\u0639\u0645 \u0627\u0644\u0633\u0627\u0628\u0642 \u0648\u0627\u0644\u062a\u062d\u0642\u0642 \u0645\u0646 \u062a\u062f\u0627\u062e\u0644 \u0627\u0644\u062f\u0639\u0645 \u0628\u064a\u0646 \u0627\u0644\u062c\u0645\u0639\u064a\u0627\u062a."}
+    >
+      <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "18px", padding: "22px", color: "#475569" }}>
+        \u062a\u0645 \u0639\u0631\u0636 \u0633\u064a\u0646\u0627\u0631\u064a\u0648 \u062f\u064a\u0645\u0648 \u0644\u062a\u062a\u0628\u0639 \u0627\u0644\u062f\u0639\u0645 \u0627\u0644\u0633\u0627\u0628\u0642 \u0648\u0645\u0646\u0639 \u062a\u0643\u0631\u0627\u0631 \u0627\u0644\u062f\u0639\u0645.
+      </div>
+    </DemoCard>
+  );
+}
+
+function BeneficiaryProfilePage() {
+  return (
+    <DemoCard
+      title={"\u0628\u0631\u0648\u0641\u0627\u064a\u0644 \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f"}
+      subtitle={"\u0645\u0631\u0627\u062c\u0639\u0629 \u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f \u0648\u062d\u0627\u0644\u0629 \u0627\u0644\u0627\u0633\u062a\u062d\u0642\u0627\u0642."}
+    >
+      <div style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "18px", padding: "22px" }}>
+        <p><strong>\u0627\u0644\u0627\u0633\u0645:</strong> \u0623\u062d\u0645\u062f \u0645\u062d\u0645\u062f \u0639\u0644\u064a</p>
+        <p><strong>\u0627\u0644\u062d\u0627\u0644\u0629:</strong> \u0645\u0624\u0647\u0644 \u0644\u0644\u062f\u0639\u0645</p>
+        <p><strong>\u0627\u0644\u062c\u0645\u0639\u064a\u0629:</strong> \u062d\u064a\u0627\u0629 \u0643\u0631\u064a\u0645\u0629</p>
+      </div>
+    </DemoCard>
+  );
+}
+
+function BeneficiaryDashboard() {
+  const text = {
+    title: "\u062f\u0627\u0634\u0628\u0648\u0631\u062f \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f",
+    subtitle: "\u0645\u062a\u0627\u0628\u0639\u0629 \u0627\u0644\u0637\u0644\u0628\u0627\u062a\u060c \u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a\u060c \u0627\u0644\u062f\u0639\u0645 \u0627\u0644\u0633\u0627\u0628\u0642\u060c \u0648\u062d\u0627\u0644\u0629 \u0627\u0644\u0627\u0633\u062a\u062d\u0642\u0627\u0642 \u062f\u0627\u062e\u0644 \u0645\u0646\u0635\u0629 \u0639\u0648\u0646.",
+    applications: "\u0627\u0644\u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0645\u0642\u062f\u0645\u0629",
+    reviewing: "\u0637\u0644\u0628\u0627\u062a \u062a\u062d\u062a \u0627\u0644\u0645\u0631\u0627\u062c\u0639\u0629",
+    documents: "\u0645\u0633\u062a\u0646\u062f\u0627\u062a \u0645\u0637\u0644\u0648\u0628\u0629",
+    eligibility: "\u062d\u0627\u0644\u0629 \u0627\u0644\u0627\u0633\u062a\u062d\u0642\u0627\u0642",
+    eligible: "\u0645\u0624\u0647\u0644",
+    demo: "\u0633\u064a\u0646\u0627\u0631\u064a\u0648 \u0627\u0644\u062f\u064a\u0645\u0648",
+    demoText: "\u0647\u0630\u0647 \u0627\u0644\u0635\u0641\u062d\u0629 \u0645\u062e\u0635\u0635\u0629 \u0644\u0639\u0631\u0636 \u0631\u062d\u0644\u0629 \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f: \u062a\u0642\u062f\u064a\u0645 \u0637\u0644\u0628 \u062f\u0639\u0645\u060c \u0631\u0641\u0639 \u0627\u0644\u0645\u0633\u062a\u0646\u062f\u0627\u062a\u060c \u0645\u062a\u0627\u0628\u0639\u0629 \u062d\u0627\u0644\u0629 \u0627\u0644\u0637\u0644\u0628\u060c \u0648\u0631\u0628\u0637 \u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0645\u0633\u062a\u0641\u064a\u062f \u0645\u0639 \u0627\u0644\u062c\u0645\u0639\u064a\u0627\u062a \u0627\u0644\u0645\u062e\u062a\u0644\u0641\u0629 \u0644\u0644\u0643\u0634\u0641 \u0639\u0646 \u0627\u0644\u062a\u0643\u0631\u0627\u0631 \u0623\u0648 \u0627\u0644\u062f\u0639\u0645 \u0627\u0644\u0645\u062a\u062f\u0627\u062e\u0644."
+  };
+
+  return (
+    <div dir="rtl" style={{ padding: "32px", minHeight: "100vh", background: "linear-gradient(135deg, #fffaf0, #f0fdf4)" }}>
+      <div style={{ maxWidth: "1100px", margin: "0 auto", background: "rgba(255,255,255,0.94)", border: "1px solid #dbeafe", borderRadius: "24px", padding: "28px", boxShadow: "0 20px 45px rgba(15,23,42,0.08)" }}>
+        <h1 style={{ margin: 0, fontSize: "34px", fontWeight: 900, color: "#0f172a" }}>{text.title}</h1>
+        <p style={{ marginTop: "10px", color: "#64748b", fontSize: "16px" }}>{text.subtitle}</p>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px", marginTop: "28px" }}>
+          {[
+            [text.applications, "3"],
+            [text.reviewing, "1"],
+            [text.documents, "2"],
+            [text.eligibility, text.eligible]
+          ].map(([label, value]) => (
+            <div key={label} style={{ background: "#fff", border: "1px solid #e2e8f0", borderRadius: "18px", padding: "22px", boxShadow: "0 10px 25px rgba(15,23,42,0.06)" }}>
+              <div style={{ color: "#64748b", fontWeight: 700, marginBottom: "10px" }}>{label}</div>
+              <div style={{ color: "#064e3b", fontSize: "28px", fontWeight: 900 }}>{value}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: "28px", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "18px", padding: "22px" }}>
+          <h2 style={{ marginTop: 0, color: "#0f172a" }}>{text.demo}</h2>
+          <p style={{ color: "#475569", lineHeight: 1.8 }}>{text.demoText}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const SESSION_KEY = 'ucp_phase3_session';
+const BRAND = {
+  ar: 'عون',
+  en: 'Aoun',
+  full: 'عون | Aoun',
+  subtitle: 'منصة موحدة لتكامل الجمعيات وإدارة الدعم الخيري',
+  phaseTitle: 'داشبورد الإدارة العامة',
+  phaseSubtitle: 'متابعة تشغيل الجمعيات وربط البيانات التشغيلية بشكل لحظي',
+  phase: 'داشبورد الإدارة العامة — متابعة تشغيل الجمعيات وربط البيانات التشغيلية بشكل لحظي',
+};
+
+function AounLogo({ compact = false, large = false }) {
+  return (
+    <div className={cls('aoun-logo-box', compact && 'compact', large && 'large')}>
+      <img
+        src="/aoun-logo.png"
+        alt="عون | Aoun"
+        className={cls('aoun-real-logo', compact && 'compact', large && 'large')}
+      />
+    </div>
+  );
+}
+
+function money(value) {
+  return new Intl.NumberFormat('ar-EG').format(Number(value || 0));
+}
+
+function statusLabel(value) {
+  return {
+    SUBMITTED: 'مقدم', ASSIGNED: 'تم التوجيه', UNDER_REVIEW: 'قيد المراجعة', APPROVED: 'مقبول', REJECTED: 'مرفوض',
+    OPEN: 'مفتوحة', PUBLISHED: 'منشورة', CLOSED: 'مغلقة', ELIGIBLE: 'مستحق', NOT_ELIGIBLE_THIS_MONTH: 'غير مستحق هذا الشهر', MANUAL_REVIEW: 'مراجعة يدوية',
+    HIGH: 'عالية', CRITICAL: 'حرجة', MEDIUM: 'متوسطة', LOW: 'منخفضة', NONE: 'لا يوجد',
+  }[value] || value || '-';
+}
+
+function cls(...items) { return items.filter(Boolean).join(' '); }
+
+function Badge({ children, tone = 'slate' }) {
+  const map = {
+    emerald: 'bg-emerald-50 text-emerald-700 ring-emerald-200', red: 'bg-rose-50 text-rose-700 ring-rose-200',
+    amber: 'bg-amber-50 text-amber-700 ring-amber-200', blue: 'bg-blue-50 text-blue-700 ring-blue-200',
+    violet: 'bg-violet-50 text-violet-700 ring-violet-200', slate: 'bg-slate-50 text-slate-700 ring-slate-200',
+  };
+  return <span className={cls('inline-flex items-center rounded-full px-3 py-1 text-xs font-black ring-1', map[tone])}>{children}</span>;
+}
+
+function Card({ children, className = '' }) {
+  return <section className={cls('rounded-[2rem] border border-slate-200 bg-white p-5 card-shadow', className)}>{children}</section>;
+}
+
+function Button({ children, onClick, type = 'button', variant = 'primary', disabled = false, className = '' }) {
+  const variants = {
+    primary: 'bg-emerald-700 text-white hover:bg-emerald-800',
+    secondary: 'bg-slate-900 text-white hover:bg-slate-800',
+    outline: 'border border-slate-200 bg-white text-slate-900 hover:bg-slate-50',
+    danger: 'bg-rose-600 text-white hover:bg-rose-700',
+    ghost: 'text-slate-700 hover:bg-slate-100',
+  };
+  return <button type={type} onClick={onClick} disabled={disabled} className={cls('inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-black transition disabled:cursor-not-allowed disabled:opacity-50', variants[variant], className)}>{children}</button>;
+}
+
+function Field({ label, children, hint }) {
+  return <label className="grid gap-1 text-sm font-bold text-slate-700"><span>{label}</span>{children}{hint && <small className="text-xs font-medium text-slate-400">{hint}</small>}</label>;
+}
+
+function TextInput(props) { return <input {...props} className={cls('w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50', props.className)} />; }
+function SelectInput(props) { return <select {...props} className={cls('w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50', props.className)} />; }
+function TextArea(props) { return <textarea {...props} className={cls('min-h-24 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50', props.className)} />; }
+
+function StatCard({ title, value, icon: Icon, tone = 'emerald', note }) {
+  const colors = { emerald: 'bg-emerald-50 text-emerald-700', blue: 'bg-blue-50 text-blue-700', amber: 'bg-amber-50 text-amber-700', red: 'bg-rose-50 text-rose-700', violet: 'bg-violet-50 text-violet-700' };
+  return <Card><div className="flex items-center justify-between gap-4"><div><p className="text-sm font-bold text-slate-500">{title}</p><h3 className="mt-2 text-3xl font-black text-slate-900">{value}</h3>{note && <p className="mt-1 text-xs font-semibold text-slate-400">{note}</p>}</div><div className={cls('rounded-3xl p-4', colors[tone])}><Icon className="h-7 w-7" /></div></div></Card>;
+}
+
+function PageTitle({ icon: Icon, title, subtitle, action }) {
+  return <div className="mb-6 flex flex-wrap items-center justify-between gap-4"><div className="flex items-center gap-3"><div className="rounded-3xl bg-emerald-50 p-3 text-emerald-700"><Icon className="h-7 w-7" /></div><div><h1 className="text-3xl font-black text-slate-900">{title}</h1><p className="mt-1 text-sm font-semibold text-slate-500">{subtitle}</p></div></div>{action}</div>;
+}
+
+function LoadingBox({ text = 'جاري تحميل البيانات...' }) { return <Card className="flex items-center justify-center gap-3 py-12 text-slate-500"><Loader2 className="h-5 w-5 animate-spin" />{text}</Card>; }
+function friendlyError(error) {
+  const text = String(error || '');
+  if (!text) return '';
+
+  if (
+    text.includes('EMAIL_ALREADY_EXISTS') ||
+    text.includes('duplicate key') ||
+    text.includes('ux_platform_users_email_not_null')
+  ) {
+    return 'البريد الإلكتروني مستخدم بالفعل. من فضلك سجلي الدخول أو استخدمي بريدًا آخر.';
+  }
+
+  return text;
+}
+
+function ErrorBox({ error }) {
+  const message = friendlyError(error);
+  return message ? <div className="mb-4 rounded-3xl border border-rose-200 bg-rose-50 p-4 text-sm font-bold text-rose-700">{message}</div> : null;
+}
+function SuccessBox({ message }) { return message ? <div className="mb-4 rounded-3xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-bold text-emerald-700">{message}</div> : null; }
+
+function useAsync(loader, deps = []) {
+  const [state, setState] = useState({ loading: true, error: '', data: null });
+  const refresh = async () => {
+    setState((s) => ({ ...s, loading: true, error: '' }));
+    try { setState({ loading: false, error: '', data: await loader() }); }
+    catch (e) { setState({ loading: false, error: e.message, data: null }); }
+  };
+  useEffect(() => { refresh(); }, deps); // eslint-disable-line react-hooks/exhaustive-deps
+  return { ...state, refresh };
+}
+
+function Layout({ user, page, setPage, children, logout }) {
+  const menu = useMemo(() => {
+    const role = user?.role_code;
+    if (role === 'BENEFICIARY') return [
+      ['dashboard', Home, 'الرئيسية'], ['apply', FileText, 'تقديم طلب'], ['upload', FileUp, 'رفع المستندات'], ['tracking', ListChecks, 'متابعة الطلبات'], ['profile', User, 'بروفايلي'],
+    ];
+    if (role === 'DONOR') return [
+      ['dashboard', Home, 'الرئيسية'], ['cases', Heart, 'الحالات المتاحة'], ['favorites', Gift, 'المفضلة'], ['donations', Wallet, 'تبرعاتي'],
+    ];
+    if (role === 'CHARITY_ADMIN') return [
+      ['dashboard', BarChart3, 'داشبورد الجمعية'], ['review', ClipboardCheck, 'مراجعة الطلبات'], ['manage-cases', Package, 'إدارة الحالات'], ['support-profiles', Users, 'بروفايلات الدعم'], ['beneficiary360', Search, 'Beneficiary 360'], ['fraud', ShieldAlert, 'Fraud Detection'], ['manual-support', HandCoins, 'تسجيل دعم'],
+    ];
+    return [
+      ['dashboard', Landmark, 'داشبورد الحكومة'], ['organizations', Building2, 'الجمعيات'], ['support-profiles', Users, 'بروفايلات الدعم'], ['beneficiary360', Search, 'Beneficiary 360'], ['fraud', ShieldAlert, 'Fraud Detection'],
+    ];
+  }, [user]);
+
+  return (
+    <div className="aoun-app-shell min-h-screen text-slate-900" dir="rtl">
+      <main className="aoun-main-grid mx-auto grid max-w-[1560px] gap-5 px-5 py-5 lg:grid-cols-[270px_1fr]">
+        <aside className="aoun-sidebar h-fit lg:sticky lg:top-5">
+          <div className="aoun-sidebar-logo">
+            <AounLogo />
+          </div>
+
+          <div className="aoun-user-card">
+            <div className="aoun-user-avatar">{(user?.full_name || 'ع').slice(0, 1)}</div>
+            <h2>{user?.full_name}</h2>
+            <p>{user?.organization_name_ar || statusLabel(user?.role_code)}</p>
+          </div>
+
+          <nav className="aoun-nav">
+            {menu.map(([key, Icon, label]) => (
+              <button
+                key={key}
+                onClick={() => setPage(key)}
+                className={cls('aoun-nav-item', page === key && 'active')}
+              >
+                <Icon className="h-5 w-5" />
+                <span>{label}</span>
+              </button>
+            ))}
+          </nav>
+        </aside>
+
+        <section className="aoun-page-area">
+          <header className="aoun-topbar">
+            <div className="flex items-center gap-3">
+              <div className="aoun-user-avatar small">{(user?.full_name || 'ع').slice(0, 1)}</div>
+              <div>
+                <p className="text-sm font-black text-aoun-dark">{user?.full_name}</p>
+                <p className="text-xs font-bold text-slate-400">{user?.organization_name_ar || statusLabel(user?.role_code)}</p>
+              </div>
+            </div>
+            <div className="aoun-topbar-title hidden text-center lg:block">
+              <h2>{BRAND.phaseTitle}</h2>
+              <p>{BRAND.phaseSubtitle}</p>
+            </div>
+            <Button variant="outline" onClick={logout}><LogOut className="h-4 w-4" /> خروج</Button>
+          </header>
+
+          {children}
+        </section>
+      </main>
+    </div>
+  );
+}
+
+function LoginPage({ onLogin }) {
+  const [identifier, setIdentifier] = useState('gov@test.com');
+  const [password, setPassword] = useState('123456');
+  const refs = useAsync(() => phase3Api.referenceData(), []);
+  const [error, setError] = useState('');
+
+  async function loginWith(id = identifier) {
+    setError('');
+    try {
+      onLogin(await phase3Api.login({ identifier: id, password }));
+    } catch (e) {
+      setError(e.message);
+    }
+  }
+
+  const fallbackDemoUsers = [
+    { identifier: 'gov@test.com', label: 'أدمن الحكومة' },
+    { identifier: 'food.admin@test.com', label: 'أدمن بنك الطعام' },
+    { identifier: 'resala.admin@test.com', label: 'أدمن رسالة' },
+    { identifier: 'haya.admin@test.com', label: 'أدمن حياة كريمة' },
+    { identifier: 'ahmed@test.com', label: 'مستفيد تجريبي' },
+    { identifier: 'donor@test.com', label: 'متبرع تجريبي' },
+  ];
+
+  const demoUsers = refs.data?.demo_users?.length ? refs.data.demo_users : fallbackDemoUsers;
+
+  return (
+    <div className="aoun-ref-login-page" dir="rtl">
+      <div className="aoun-ref-orb orb-one" />
+      <div className="aoun-ref-orb orb-two" />
+      <div className="aoun-ref-branch top" />
+
+      <main className="aoun-ref-login-layout">
+        <Card className="aoun-ref-login-card">
+          <div className="aoun-ref-login-head">
+            <h1>تسجيل الدخول</h1>
+            <p>مرحباً بك في منصة عون</p>
+          </div>
+
+          <ErrorBox error={error || refs.error} />
+
+          <div className="aoun-ref-form">
+            <Field label="البريد الإلكتروني أو الهاتف">
+              <TextInput
+                dir="ltr"
+                placeholder="example@domain.com"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+              />
+            </Field>
+
+            <Field label="كلمة المرور">
+              <TextInput
+                dir="ltr"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Field>
+
+            <Button className="aoun-ref-login-btn" onClick={() => loginWith()}>
+              دخول <CheckCircle2 className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="aoun-ref-demo-divider">
+            <span />
+            <p>أو استخدم حساب تجريبي</p>
+            <span />
+          </div>
+
+          <div className="aoun-ref-demo-list">
+            {demoUsers.map((u) => (
+              <button
+                key={u.identifier}
+                type="button"
+                onClick={() => loginWith(u.identifier)}
+                className="aoun-ref-demo-user"
+              >
+                <span className="aoun-ref-demo-role">{u.label}</span>
+                <span className="aoun-ref-demo-email">{u.identifier}</span>
+              </button>
+            ))}
+          </div>
+
+          <p className="aoun-ref-footer">© 2025 عون · جميع الحقوق محفوظة</p>
+        </Card>
+
+        <section className="aoun-ref-hero">
+          <img src="/aoun-logo.png" alt="Aoun" className="aoun-ref-logo" />
+
+          <div className="aoun-ref-separator">
+            <span />
+            <Heart className="h-5 w-5" />
+            <span />
+          </div>
+
+          <h2>﴿ وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَى ﴾</h2>
+          <p className="aoun-ref-source">المائدة: 2</p>
+
+          <p className="aoun-ref-description">
+            منصة موحدة لإدارة الجمعيات الخيرية، لمتابعة الحالات، منع تكرار الدعم،
+            وربط البيانات التشغيلية والتحليلية لتحقيق أثر مستدام.
+          </p>
+
+          <div className="aoun-ref-features">
+            <div className="aoun-ref-feature">
+              <div><Users className="h-6 w-6" /></div>
+              <h3>ربط وتكامل</h3>
+              <p>توحيد جهود الجمعيات في منصة واحدة.</p>
+            </div>
+
+            <div className="aoun-ref-feature">
+              <div><Database className="h-6 w-6" /></div>
+              <h3>تقارير ذكية</h3>
+              <p>تحليلات دقيقة لدعم اتخاذ القرار.</p>
+            </div>
+
+            <div className="aoun-ref-feature">
+              <div><ShieldCheck className="h-6 w-6" /></div>
+              <h3>شفافية وموثوقية</h3>
+              <p>بيانات آمنة وموثوقة لضمان الثقة.</p>
+            </div>
+
+            <div className="aoun-ref-feature">
+              <div><Heart className="h-6 w-6" /></div>
+              <h3>أثر مستدام</h3>
+              <p>نعمل معاً لصناعة أثر إنساني يدوم.</p>
+            </div>
+          </div>
+
+          <div className="aoun-ref-quote">
+            والله في عون العبد ما كان العبد في عون أخيه
+          </div>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+
+function UploadPage({ user, refs }) {
+  const nationalId = user?.national_id || '2990101123456';
+  const apps = useAsync(() => phase3Api.beneficiaryApplications(nationalId), [nationalId]);
+  const docs = useAsync(() => phase3Api.beneficiaryDocuments(nationalId), [nationalId]);
+  const [form, setForm] = useState({ applicationId: '', documentTypeId: refs?.document_types?.[0]?.document_type_id || '', file: null });
+  const [state, setState] = useState({ loading: false, error: '', success: '' });
+  async function upload(e) { e.preventDefault(); setState({ loading: true, error: '', success: '' }); try { await phase3Api.uploadDocument({ ...form, beneficiaryId: user?.beneficiary_id }); setState({ loading: false, error: '', success: 'تم رفع المستند على MinIO وحفظ بياناته في SQL Server' }); docs.refresh(); } catch (err) { setState({ loading: false, error: err.message, success: '' }); } }
+  return <><PageTitle icon={FileUp} title="رفع المستندات" subtitle="ملفات PDF وصور، مع MinIO + SQL metadata" /><ErrorBox error={state.error || apps.error || docs.error} /><SuccessBox message={state.success} /><Card><form onSubmit={upload} className="grid gap-4 md:grid-cols-3"><Field label="الطلب"><SelectInput value={form.applicationId} onChange={(e) => setForm({ ...form, applicationId: e.target.value })}><option value="">اختاري طلب</option>{apps.data?.map((a) => <option key={a.application_id} value={a.application_id}>{a.application_code} - {statusLabel(a.application_status)}</option>)}</SelectInput></Field><Field label="نوع المستند"><SelectInput value={form.documentTypeId} onChange={(e) => setForm({ ...form, documentTypeId: e.target.value })}>{refs.document_types?.map((d) => <option key={d.document_type_id} value={d.document_type_id}>{d.document_type_name_ar}</option>)}</SelectInput></Field><Field label="الملف"><TextInput type="file" onChange={(e) => setForm({ ...form, file: e.target.files?.[0] })} required /></Field><div className="md:col-span-3"><Button type="submit" disabled={state.loading || !form.file}>رفع المستند</Button></div></form></Card><div className="mt-5 grid gap-3">{docs.loading ? <LoadingBox /> : docs.data?.map((d) => <Card key={d.document_id}><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-black">{d.original_file_name}</h3><p className="text-sm text-slate-500">{d.document_type_name_ar} - {d.file_size_kb} KB</p></div><Badge tone="blue">{d.document_status}</Badge></div></Card>)}</div></>;
+}
+
+function TrackingPage({ user }) {
+  const nationalId = user?.national_id || '2990101123456';
+  const { loading, error, data, refresh } = useAsync(() => phase3Api.beneficiaryApplications(nationalId), [nationalId]);
+  return <><PageTitle icon={ListChecks} title="متابعة الطلبات" subtitle="حالة الطلبات من قاعدة البيانات مباشرة" action={<Button variant="outline" onClick={refresh}>تحديث</Button>} /><ErrorBox error={error} />{loading ? <LoadingBox /> : <div className="grid gap-3">{data?.map((a) => <Card key={a.application_id}><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="text-lg font-black">{a.application_code} - {a.support_type_name_ar}</h3><p className="text-sm text-slate-500">{a.organization_name_ar} | {money(a.requested_amount)} جنيه</p></div><div className="flex flex-wrap gap-2"><Badge tone="blue">{statusLabel(a.application_status)}</Badge><Badge tone="amber">أولوية {statusLabel(a.priority_level)} / {a.priority_score}</Badge><Badge tone={a.eligibility_status === 'ELIGIBLE' ? 'emerald' : 'amber'}>{statusLabel(a.eligibility_status)}</Badge></div></div></Card>)}</div>}</>;
+}
+function BeneficiarySupportProfilePage({ user }) {
+  const nationalId = user?.national_id || '2990101123456';
+  const { loading, error, data } = useAsync(() => phase3Api.beneficiarySupportProfile(nationalId), [nationalId]);
+  return <><PageTitle icon={User} title="بروفايل الدعم" subtitle="ما أخذه المستفيد هذا الشهر وهل هو مستحق أم لا" /><ErrorBox error={error} />{loading ? <LoadingBox /> : <div className="grid gap-5 lg:grid-cols-[1fr_1fr]"><Card><h3 className="text-xl font-black">{data?.profile?.full_name}</h3><p className="mt-1 text-sm text-slate-500">{data?.profile?.national_id} | {data?.profile?.phone}</p><div className="mt-4 flex flex-wrap gap-2"><Badge tone={data?.profile?.monthly_eligibility_status === 'ELIGIBLE' ? 'emerald' : 'amber'}>{data?.profile?.monthly_eligibility_label_ar}</Badge><Badge tone="blue">دعم الشهر: {money(data?.profile?.amount_received_this_month)} ج</Badge><Badge tone="red">Fraud: {statusLabel(data?.profile?.fraud_level)}</Badge></div><p className="mt-4 text-sm font-semibold text-slate-500">{data?.profile?.support_summary_ar}</p></Card><Card><h3 className="mb-3 text-xl font-black">تاريخ الدعم</h3><div className="grid gap-3">{data?.support_history?.map((s) => <div key={s.support_code} className="rounded-2xl bg-slate-50 p-3 text-sm"><b>{s.organization_name_ar}</b> - {s.support_type_name_ar} - {money(s.amount_value)} ج <span className="text-slate-400">({s.support_month})</span></div>)}</div></Card></div>}</>;
+}
+
+function DonorDashboard({ user, setPage }) {
+  const { loading, error, data, refresh } = useAsync(async () => {
+    const donorPhone = user?.phone || '01077000001';
+    const [cases, favorites, donations] = await Promise.all([
+      phase3Api.donorCases(),
+      phase3Api.donorFavorites({ donor_phone: donorPhone }),
+      phase3Api.donorDonations({ donor_phone: donorPhone }),
+    ]);
+    return { cases: cases || [], favorites: favorites || [], donations: donations || [] };
+  }, [user?.phone]);
+
+  const totalDonated = (data?.donations || []).reduce((sum, d) => sum + Number(d.amount || 0), 0);
+  const fundedCases = (data?.cases || []).filter((c) => Number(c.remaining_amount || 0) <= 0).length;
+  const dashCard = (title, value, Icon, targetPage, tone = 'emerald', note = '') => (
+    <button onClick={() => setPage(targetPage)} className="text-right transition hover:-translate-y-1">
+      <StatCard title={title} value={value} icon={Icon} tone={tone} note={note} />
+    </button>
+  );
+
+  return (
+    <>
+      <PageTitle
+        icon={Home}
+        title="لوحة المتبرع"
+        subtitle="Dashboard تفاعلية من SQL Server: الحالات، المفضلة، والتبرعات"
+        action={<Button variant="outline" onClick={refresh}>تحديث</Button>}
+      />
+      <ErrorBox error={error} />
+      {loading ? (
+        <LoadingBox />
+      ) : (
+        <>
+          <div className="grid gap-4 md:grid-cols-4">
+            {dashCard('حالات متاحة', data?.cases?.length || 0, Heart, 'cases', 'emerald', 'اضغطي لعرض الحالات')}
+            {dashCard('المفضلة', data?.favorites?.length || 0, Gift, 'favorites', 'violet', 'اضغطي لعرض المفضلة')}
+            {dashCard('تبرعاتي', data?.donations?.length || 0, Wallet, 'donations', 'blue', `${money(totalDonated)} ج إجمالي`)}
+            {dashCard('مكتملة التمويل', fundedCases, CheckCircle2, 'cases', 'amber', 'حالات وصلت للمبلغ')}
+          </div>
+
+          <Card className="mt-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 className="text-xl font-black">اختصارات سريعة</h3>
+                <p className="mt-1 text-sm font-semibold text-slate-500">كل الأزرار هنا تفتح صفحات حقيقية مرتبطة بالـ API.</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button onClick={() => setPage('cases')}>عرض الحالات المتاحة</Button>
+                <Button variant="outline" onClick={() => setPage('favorites')}>المفضلة</Button>
+                <Button variant="outline" onClick={() => setPage('donations')}>تبرعاتي</Button>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="mt-5">
+            <h3 className="mb-3 text-xl font-black">أحدث الحالات المتاحة</h3>
+            <div className="grid gap-3">
+              {(data?.cases || []).slice(0, 3).map((c) => (
+                <button key={c.case_id} onClick={() => setPage('cases')} className="rounded-2xl border border-slate-100 p-4 text-right hover:bg-slate-50">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <h4 className="font-black">{c.case_title}</h4>
+                      <p className="text-sm font-semibold text-slate-500">{c.organization_name_ar} - المتبقي {money(c.remaining_amount)} ج</p>
+                    </div>
+                    <Badge tone={Number(c.remaining_amount || 0) <= 0 ? 'amber' : 'emerald'}>
+                      {Number(c.remaining_amount || 0) <= 0 ? 'مكتملة' : 'مستحقة'}
+                    </Badge>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </Card>
+        </>
+      )}
+    </>
+  );
+}
+
+function PublicCaseCard({ item, donor, onChanged }) {
+  const [amount, setAmount] = useState(Math.min(Number(item.remaining_amount || 100), 500));
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  async function donate() { setError(''); setSuccess(''); try { await phase3Api.createDonation({ case_id: item.case_id, amount, donor_name: donor?.full_name || 'متبرع', donor_phone: donor?.phone || '01077000001', donor_email: donor?.email || 'donor@test.com', payment_method_id: 1 }); setSuccess('تم التبرع بنجاح'); onChanged?.(); } catch (e) { setError(e.message); } }
+  async function fav() { try { await phase3Api.addFavorite({ case_id: item.case_id, donor_phone: donor?.phone || '01077000001' }); setSuccess('تمت الإضافة للمفضلة'); onChanged?.(); } catch (e) { setError(e.message); } }
+  return <Card><ErrorBox error={error} /><SuccessBox message={success} /><div className="flex flex-wrap items-start justify-between gap-3"><div><h3 className="text-xl font-black">{item.case_title}</h3><p className="mt-1 text-sm leading-7 text-slate-500">{item.case_description}</p><div className="mt-3 flex flex-wrap gap-2"><Badge tone="blue">{item.organization_name_ar}</Badge><Badge tone="violet">{item.support_type_name_ar}</Badge><Badge tone={item.can_donate ? 'emerald' : 'amber'}>{item.eligibility_label_ar}</Badge><Badge tone="amber">أولوية {statusLabel(item.priority_level)} / {item.priority_score}</Badge></div></div><div className="min-w-52 rounded-3xl bg-slate-50 p-4"><p className="text-xs font-bold text-slate-500">المتبقي</p><h4 className="text-2xl font-black">{money(item.remaining_amount)} ج</h4><div className="mt-2 h-2 rounded-full bg-slate-200"><div className="h-2 rounded-full bg-emerald-600" style={{ width: `${Math.min(100, (Number(item.collected_amount || 0) / Number(item.required_amount || 1)) * 100)}%` }} /></div></div></div>{item.can_donate ? <div className="mt-4 flex flex-wrap gap-2"><TextInput type="number" value={amount} onChange={(e) => setAmount(e.target.value)} className="max-w-40" /><Button onClick={donate}><HandCoins className="h-4 w-4" /> تبرع</Button><Button variant="outline" onClick={fav}><Heart className="h-4 w-4" /> مفضلة</Button></div> : <div className="mt-4"><Badge tone="amber">تم إيقاف التبرع: غير مستحق هذا الشهر / تم اكتمال المبلغ</Badge></div>}</Card>;
+}
+
+function CasesPage({ user, favorites = false }) {
+  const loader = () => favorites ? phase3Api.donorFavorites({ donor_phone: user?.phone || '01077000001' }) : phase3Api.donorCases({});
+  const { loading, error, data, refresh } = useAsync(loader, [favorites]);
+  return <><PageTitle icon={favorites ? Gift : Heart} title={favorites ? 'المفضلة' : 'الحالات المتاحة'} subtitle="المتبرع يرى بيانات آمنة فقط بدون تفاصيل إدارية" action={<Button variant="outline" onClick={refresh}>تحديث</Button>} /><ErrorBox error={error} />{loading ? <LoadingBox /> : <div className="grid gap-4">{data?.map((item) => <PublicCaseCard key={`${item.case_id}-${item.favorite_id || ''}`} item={item} donor={user} onChanged={refresh} />)}</div>}</>;
+}
+
+function DonationHistory({ user }) { const { loading, error, data, refresh } = useAsync(() => phase3Api.donorDonations({ donor_phone: user?.phone || '01077000001' }), []); return <><PageTitle icon={Wallet} title="تبرعاتي" subtitle="كل التبرعات المسجلة في SQL Server" action={<Button variant="outline" onClick={refresh}>تحديث</Button>} /><ErrorBox error={error} />{loading ? <LoadingBox /> : <div className="grid gap-3">{data?.map((d) => <Card key={d.donation_id}><div className="flex justify-between gap-3"><div><h3 className="font-black">{d.donation_code}</h3><p className="text-sm text-slate-500">{d.organization_name_ar || 'تبرع عام'} - {d.case_title || ''}</p></div><Badge tone="emerald">{money(d.amount)} ج</Badge></div></Card>)}</div>}</>; }
+
+function aounNumber(value) {
+  return Number(value || 0);
+}
+
+function aounPercent(collected, required) {
+  const c = aounNumber(collected);
+  const r = aounNumber(required);
+  if (!r) return 0;
+  return Math.round(Math.max(0, Math.min(100, (c / r) * 100)));
+}
+
+function pickNumber(source, keys, fallback = 0) {
+  for (const key of keys) {
+    const value = Number(source?.[key]);
+    if (Number.isFinite(value) && value !== 0) return value;
+  }
+  return Number(fallback || 0);
+}
+
+function splitNumber(total, index, count) {
+  const value = Number(total || 0);
+  const n = Math.max(Number(count || 1), 1);
+  if (!value) return 0;
+  const base = Math.floor(value / n);
+  return index === n - 1 ? value - base * (n - 1) : base;
+}
+
+function AounKpiCard({ title, value, icon: Icon, tone = 'green', note }) {
+  return (
+    <div className="aoun-kpi-card">
+      <div className={cls('aoun-kpi-icon', tone)}>
+        <Icon className="h-6 w-6" />
+      </div>
+      <div>
+        <p>{title}</p>
+        <h3>{value}</h3>
+        {note && <small>{note}</small>}
+      </div>
+    </div>
+  );
+}
+
+function AounOrgCard({ org, active, onClick }) {
+  const required = aounNumber(org.required_amount || org.target_amount || org.total_required_amount || 0);
+  const collected = aounNumber(org.collected_amount || org.total_donations || org.total_collected_amount || 0);
+  const pct = aounPercent(collected, required);
+  return (
+    <button type="button" onClick={onClick} className={cls('aoun-org-soft-card', active && 'active')}>
+      <div className="flex items-start justify-between gap-3">
+        <Badge tone={pct >= 80 ? 'emerald' : pct >= 50 ? 'amber' : 'slate'}>{pct}%</Badge>
+        <div className="text-right">
+          <h3>{org.organization_name_ar || org.organization_name_en || org.organization_code}</h3>
+          <p>{org.organization_code}</p>
+        </div>
+      </div>
+      <div className="aoun-progress-track mt-5">
+        <div className="aoun-progress-fill" style={{ width: `${pct}%` }} />
+      </div>
+      <div className="mt-5 grid grid-cols-3 gap-2 text-center">
+        <div className="aoun-org-mini"><span>الحالات</span><b>{money(org.cases_count)}</b></div>
+        <div className="aoun-org-mini"><span>مفتوحة</span><b>{money(org.open_cases)}</b></div>
+        <div className="aoun-org-mini"><span>المحصل</span><b>{money(collected)} ج</b></div>
+      </div>
+    </button>
+  );
+}
+
+function AounHorizontalMetric({ label, value, max, tone = 'green' }) {
+  const width = max ? Math.max(8, Math.min(100, (aounNumber(value) / max) * 100)) : 0;
+  return (
+    <div className="aoun-horizontal-metric">
+      <div className="flex items-center justify-between gap-3 text-sm font-black text-slate-700">
+        <span>{label}</span>
+        <span>{money(value)} ج</span>
+      </div>
+      <div className="aoun-metric-track">
+        <div className={cls('aoun-metric-fill', tone)} style={{ width: `${width}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function AounCaseStatusDonut({ openCases, completedCases, title }) {
+  const open = aounNumber(openCases);
+  const completed = aounNumber(completedCases);
+  const total = Math.max(1, open + completed);
+  const openPct = Math.round((open / total) * 100);
+  return (
+    <div className="aoun-chart-soft-card">
+      <div className="flex items-center justify-between">
+        <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+        <h3>{title}</h3>
+      </div>
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-8">
+        <div className="aoun-status-donut" style={{ background: `conic-gradient(#047857 0 ${openPct}%, #f97316 ${openPct}% 100%)` }}>
+          <div>
+            <b>{open + completed}</b>
+            <span>حالات</span>
+          </div>
+        </div>
+        <div className="grid gap-5 min-w-40">
+          <div className="aoun-legend-row"><i className="bg-emerald-700" /><div><b>مفتوحة</b><span>{open} من الإجمالي</span></div></div>
+          <div className="aoun-legend-row"><i className="bg-orange-500" /><div><b>مكتملة</b><span>{completed} من الإجمالي</span></div></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AdminDashboard({ user, government = false, setPage }) {
+  const loader = () => government ? phase3Api.governmentDashboard() : phase3Api.adminDashboard(user.organization_id);
+  const { loading, error, data, refresh } = useAsync(loader, [government, user.organization_id]);
+  const [selectedOrgId, setSelectedOrgId] = useState('');
+
+  if (!government) {
+    const stats = data;
+    return (
+      <>
+        <PageTitle
+          icon={BarChart3}
+          title="داشبورد الجمعية"
+          subtitle="الأدمن يرى بيانات جمعيته فقط"
+          action={<Button variant="outline" onClick={refresh}>تحديث</Button>}
+        />
+        <ErrorBox error={error} />
+        {loading ? <LoadingBox /> : (
+          <div className="grid gap-4 md:grid-cols-4">
+            <StatCard title="الطلبات" value={stats?.applications_count || stats?.total_applications || 0} icon={FileText} />
+            <StatCard title="الحالات" value={stats?.cases_count || stats?.open_cases || 0} icon={Heart} tone="violet" />
+            <StatCard title="تنبيهات Fraud" value={stats?.open_fraud_alerts || 0} icon={ShieldAlert} tone="red" />
+            <StatCard title="تبرعات" value={`${money(stats?.total_donations)} ج`} icon={Wallet} tone="blue" />
+          </div>
+        )}
+        {!loading && <Card className="mt-5"><div className="flex flex-wrap gap-2"><Button onClick={() => setPage('review')}>الخطوة التالية</Button><Button variant="outline" onClick={() => setPage('support-profiles')}>بروفايلات الدعم</Button></div></Card>}
+      </>
+    );
+  }
+
+  const stats = data?.stats || {};
+  const rawOrgs = data?.organization_cards || data?.organizations || [];
+  const orgCount = Math.max(rawOrgs.length, 1);
+
+  const totalCases = pickNumber(stats, ['cases_count', 'total_cases']);
+  const totalOpenCases = pickNumber(stats, ['donor_visible_cases', 'open_cases', 'published_cases']);
+  const totalCompletedCases = Math.max(0, totalCases - totalOpenCases);
+  const totalCollected = pickNumber(stats, ['total_collected_amount', 'total_case_collected_amount', 'collected_amount', 'total_donations']);
+  const totalRequired = pickNumber(stats, ['total_required_amount', 'total_case_target_amount', 'required_amount', 'target_amount'], totalCollected ? totalCollected * 2 : 0);
+
+  const orgs = rawOrgs.map((o, index) => {
+    const casesFallback = splitNumber(totalCases, index, orgCount);
+    const openFallback = splitNumber(totalOpenCases, index, orgCount);
+    const collectedFallback = splitNumber(totalCollected, index, orgCount);
+    const requiredFallback = splitNumber(totalRequired, index, orgCount);
+    return {
+      ...o,
+      required_amount: pickNumber(o, ['required_amount', 'total_required_amount', 'target_amount'], requiredFallback),
+      collected_amount: pickNumber(o, ['collected_amount', 'total_collected_amount', 'total_donations'], collectedFallback),
+      total_donations: pickNumber(o, ['total_donations', 'collected_amount', 'total_collected_amount'], collectedFallback),
+      cases_count: pickNumber(o, ['cases_count', 'total_cases'], casesFallback),
+      open_cases: pickNumber(o, ['open_cases', 'published_cases'], openFallback),
+      completed_cases: pickNumber(o, ['completed_cases', 'closed_cases'], Math.max(0, casesFallback - openFallback)),
+    };
+  });
+
+  const aggregateSelected = {
+    organization_id: 'all',
+    organization_name_ar: 'كل الجمعيات',
+    organization_name_en: 'All Organizations',
+    organization_code: 'ALL',
+    required_amount: orgs.reduce((sum, o) => sum + aounNumber(o.required_amount), 0) || totalRequired,
+    collected_amount: orgs.reduce((sum, o) => sum + aounNumber(o.collected_amount), 0) || totalCollected,
+    total_donations: orgs.reduce((sum, o) => sum + aounNumber(o.total_donations), 0) || totalCollected,
+    cases_count: orgs.reduce((sum, o) => sum + aounNumber(o.cases_count), 0) || totalCases,
+    open_cases: orgs.reduce((sum, o) => sum + aounNumber(o.open_cases), 0) || totalOpenCases,
+    completed_cases: orgs.reduce((sum, o) => sum + aounNumber(o.completed_cases), 0) || totalCompletedCases,
+  };
+
+  const selected = selectedOrgId
+    ? (orgs.find((o) => String(o.organization_id) === String(selectedOrgId)) || aggregateSelected)
+    : aggregateSelected;
+  const required = aounNumber(selected.required_amount);
+  const collected = aounNumber(selected.collected_amount);
+  const remaining = Math.max(0, required - collected);
+  const maxBar = Math.max(required, collected, remaining, 1);
+  const selectedPct = aounPercent(collected, required);
+
+  return (
+    <div className="aoun-gov-dashboard">
+      <div className="aoun-filter-band">
+        <Field label="اختر الجمعية">
+          <SelectInput value={selectedOrgId} onChange={(e) => setSelectedOrgId(e.target.value)}>
+            <option value="">كل الجمعيات</option>
+            {orgs.map((o) => <option key={o.organization_id} value={o.organization_id}>{o.organization_name_ar || o.organization_name_en}</option>)}
+          </SelectInput>
+        </Field>
+      </div>
+
+      <ErrorBox error={error} />
+      {loading ? <LoadingBox /> : (
+        <>
+          <div className="aoun-org-grid">
+            {orgs.map((org) => (
+              <AounOrgCard
+                key={org.organization_id}
+                org={org}
+                active={selectedOrgId && String(selected.organization_id) === String(org.organization_id)}
+                onClick={() => setSelectedOrgId(org.organization_id)}
+              />
+            ))}
+          </div>
+
+          <div className="aoun-summary-kpis">
+            <AounKpiCard title="الجمعية المختارة" value={selected.organization_name_ar || 'كل الجمعيات'} icon={Building2} />
+            <AounKpiCard title="حالات مفتوحة" value={money(selected.open_cases)} icon={Package} tone="orange" />
+            <AounKpiCard title="نسبة التغطية" value={`${selectedPct}%`} icon={ShieldAlert} />
+            <AounKpiCard title="إجمالي المحصل" value={`${money(collected)} ج`} icon={Wallet} />
+            <AounKpiCard title="إجمالي التبرعات" value={`${money(selected.total_donations || collected)} ج`} icon={HandCoins} />
+          </div>
+
+          <div className="aoun-bottom-charts">
+            <div className="aoun-chart-soft-card">
+              <div className="flex items-center justify-between">
+                <BarChart3 className="h-5 w-5 text-emerald-600" />
+                <h3>المطلوب / المحصل / المتبقي</h3>
+              </div>
+              <div className="aoun-column-chart mt-6">
+                <div><b>{money(remaining)}</b><span className="bar beige" style={{ height: '42%' }} /><small>المتبقي</small></div>
+                <div><b>{money(collected)}</b><span className="bar orange" style={{ height: `${Math.max(18, (collected / maxBar) * 100)}%` }} /><small>المحصل</small></div>
+                <div><b>{money(required)}</b><span className="bar green" style={{ height: `${Math.max(18, (required / maxBar) * 100)}%` }} /><small>المطلوب</small></div>
+              </div>
+            </div>
+
+            <AounCaseStatusDonut
+              title={`حالة الحالات - ${selected.organization_name_ar || 'كل الجمعيات'}`}
+              openCases={selected.open_cases}
+              completedCases={selected.completed_cases}
+            />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+
+function AounExactGovernmentDashboard({ user, logout, setPage }) {
+  const { loading, error, data, refresh } = useAsync(() => phase3Api.governmentDashboard(), []);
+  const [selectedOrgId, setSelectedOrgId] = useState('');
+
+  const stats = data?.stats || {};
+  const rawOrgs = data?.organization_cards || data?.organizations || [];
+  const orgs = rawOrgs.map((o) => ({
+    ...o,
+    required_amount: aounNumber(o.required_amount ?? o.total_required_amount ?? o.target_amount ?? 0),
+    collected_amount: aounNumber(o.collected_amount ?? o.total_collected_amount ?? o.total_donations ?? 0),
+    cases_count: aounNumber(o.cases_count ?? o.total_cases ?? 0),
+    open_cases: aounNumber(o.open_cases ?? 0),
+    completed_cases: aounNumber(o.completed_cases ?? o.closed_cases ?? 0),
+  }));
+
+  const selected = orgs.find((o) => String(o.organization_id) === String(selectedOrgId)) || orgs[0] || {};
+  const required = aounNumber(selected.required_amount);
+  const collected = aounNumber(selected.collected_amount);
+  const remaining = Math.max(0, required - collected);
+  const maxBar = Math.max(required, collected, remaining, 1);
+  const selectedPct = aounPercent(collected, required);
+  const open = Number(selected.open_cases || 0);
+  const completed = Number(selected.completed_cases || 0);
+  const totalCases = Math.max(1, open + completed || selected.cases_count || 0);
+
+  function orgLabel(o) {
+    return o.organization_name_ar || o.organization_name_en || o.organization_code || 'جمعية';
+  }
+
+  return (
+    <div className="aoun-exact-shell" dir="rtl">
+      <header className="aoun-exact-header">
+        <div className="aoun-exact-user-area">
+          <div className="aoun-exact-avatar">{(user?.full_name || 'ع').slice(0, 1)}</div>
+          <div>
+            <p className="aoun-exact-user-name">{user?.full_name || 'مدير النظام'}</p>
+            <p className="aoun-exact-user-role">{user?.organization_name_ar || 'الإدارة العامة'}</p>
+          </div>
+          <span className="aoun-exact-divider" />
+          <button className="aoun-exact-logout" onClick={logout}>
+            <LogOut className="h-4 w-4" />
+            خروج
+          </button>
+        </div>
+
+        <div className="aoun-exact-title-area">
+          <div className="aoun-exact-logo-wrap">
+            <AounLogo large />
+          </div>
+          <span className="aoun-exact-title-divider" />
+          <div>
+            <h1>داشبورد الإدارة العامة</h1>
+            <p>متابعة تشغيل الجمعيات وربط البيانات التشغيلية بشكل لحظي</p>
+          </div>
+        </div>
+      </header>
+
+      <section className="aoun-exact-filter-card">
+        <Field label="اختر الجمعية">
+          <SelectInput value={selectedOrgId} onChange={(e) => setSelectedOrgId(e.target.value)}>
+            <option value="">كل الجمعيات</option>
+            {orgs.map((o) => (
+              <option key={o.organization_id} value={o.organization_id}>{orgLabel(o)}</option>
+            ))}
+          </SelectInput>
+        </Field>
+      </section>
+
+      <ErrorBox error={error} />
+
+      {loading ? (
+        <LoadingBox />
+      ) : (
+        <>
+          <section className="aoun-exact-org-row">
+            {orgs.map((org) => {
+              const pct = aounPercent(org.collected_amount, org.required_amount);
+              const isActive = String(selected.organization_id) === String(org.organization_id);
+              return (
+                <button
+                  key={org.organization_id}
+                  type="button"
+                  onClick={() => setSelectedOrgId(org.organization_id)}
+                  className={cls('aoun-exact-org-card', isActive && 'active')}
+                >
+                  <div className="aoun-exact-org-top">
+                    <span className={cls('aoun-exact-pill', pct >= 80 ? 'orange' : pct >= 50 ? 'green' : '')}>{pct}%</span>
+                    <div>
+                      <h3>{orgLabel(org)}</h3>
+                      <p>{org.organization_code || 'ORG'}</p>
+                    </div>
+                  </div>
+                  <div className="aoun-exact-progress">
+                    <i style={{ width: `${Math.max(6, pct)}%` }} />
+                  </div>
+                  <div className="aoun-exact-org-metrics">
+                    <div><span>الحالات</span><b>{money(org.cases_count)}</b></div>
+                    <div><span>مفتوحة</span><b>{money(org.open_cases)}</b></div>
+                    <div><span>المحصل</span><b>{money(org.collected_amount)} ج</b></div>
+                  </div>
+                </button>
+              );
+            })}
+          </section>
+
+          <section className="aoun-exact-kpi-strip">
+            <AounKpiCard title="الجمعية المختارة" value={selected.organization_name_ar || 'كل الجمعيات'} icon={Building2} />
+            <AounKpiCard title="حالات مفتوحة" value={money(selected.open_cases)} icon={Package} tone="orange" />
+            <AounKpiCard title="نسبة التغطية" value={`${selectedPct}%`} icon={ShieldAlert} />
+            <AounKpiCard title="إجمالي المحصل" value={`${money(collected)} ج`} icon={Wallet} />
+            <AounKpiCard title="إجمالي التبرعات" value={`${money(stats.total_donations || selected.total_donations || collected)} ج`} icon={HandCoins} tone="orange" />
+          </section>
+
+          <section className="aoun-exact-main-analytics">
+            <div className="aoun-exact-chart-card aoun-exact-bars-card">
+              <div className="aoun-exact-card-title">
+                <BarChart3 className="h-5 w-5" />
+                <h3>المطلوب / المحصل / المتبقي</h3>
+              </div>
+              <div className="aoun-exact-bar-area">
+                <AounHorizontalMetric label="المتبقي" value={remaining} max={maxBar} tone="beige" />
+                <AounHorizontalMetric label="المحصل" value={collected} max={maxBar} tone="orange" />
+                <AounHorizontalMetric label="المطلوب" value={required} max={maxBar} tone="green" />
+              </div>
+            </div>
+
+            <div className="aoun-exact-chart-card">
+              <div className="aoun-exact-card-title">
+                <RefreshCcw className="h-5 w-5" />
+                <h3>حالة الحالات — {selected.organization_name_ar || 'كل الجمعيات'}</h3>
+              </div>
+              <div className="aoun-exact-donut-layout">
+                <div className="aoun-exact-donut">
+                  <div>
+                    <b>{money(selected.cases_count || open + completed)}</b>
+                    <span>حالات</span>
+                  </div>
+                </div>
+                <div className="aoun-exact-status-list">
+                  <div><i className="green" /><span>مفتوحة</span><b>{money(open)}</b><small>{Math.round((open / totalCases) * 100)}% من الإجمالي</small></div>
+                  <div><i className="orange" /><span>مكتملة</span><b>{money(completed)}</b><small>{Math.round((completed / totalCases) * 100)}% من الإجمالي</small></div>
+                  <div className="aoun-exact-coverage-box">
+                    <span>نسبة التغطية</span>
+                    <b>{selectedPct}%</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="aoun-exact-lower-grid">
+            <div className="aoun-exact-chart-card">
+              <div className="aoun-exact-card-title">
+                <BarChart3 className="h-5 w-5" />
+                <h3>المطلوب / المحصل / المتبقي</h3>
+              </div>
+              <div className="aoun-column-chart mt-6">
+                <div><b>{money(remaining)}</b><span className="bar beige" style={{ height: `${Math.max(20, (remaining / maxBar) * 100)}%` }} /><small>المتبقي</small></div>
+                <div><b>{money(collected)}</b><span className="bar orange" style={{ height: `${Math.max(20, (collected / maxBar) * 100)}%` }} /><small>المحصل</small></div>
+                <div><b>{money(required)}</b><span className="bar green" style={{ height: `${Math.max(20, (required / maxBar) * 100)}%` }} /><small>المطلوب</small></div>
+              </div>
+            </div>
+
+            <div className="aoun-exact-chart-card">
+              <div className="aoun-exact-card-title">
+                <RefreshCcw className="h-5 w-5" />
+                <h3>حالة الحالات - {selected.organization_name_ar || 'كل الجمعيات'}</h3>
+              </div>
+              <div className="aoun-exact-donut-layout compact">
+                <div className="aoun-exact-donut small">
+                  <div>
+                    <b>{money(selected.cases_count || open + completed)}</b>
+                    <span>حالات</span>
+                  </div>
+                </div>
+                <div className="aoun-exact-status-list">
+                  <div><i className="green" /><span>مفتوحة</span><b>{money(open)}</b><small>{Math.round((open / totalCases) * 100)}% من الإجمالي</small></div>
+                  <div><i className="orange" /><span>مكتملة</span><b>{money(completed)}</b><small>{Math.round((completed / totalCases) * 100)}% من الإجمالي</small></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <footer className="aoun-exact-footer">
+            <span>© 2026 | Aoun</span>
+            <button onClick={refresh}>تحديث البيانات</button>
+            <button onClick={() => setPage('organizations')}>عرض الجمعيات</button>
+          </footer>
+        </>
+      )}
+    </div>
+  );
+}
+
+function AdminReviewPage({ user }) {
+  const { loading, error, data, refresh } = useAsync(
+    () => phase3Api.adminApplications(user.organization_id),
+    [user.organization_id]
+  );
+
+  const [msg, setMsg] = useState('');
+  const [localError, setLocalError] = useState('');
+  const [hiddenCodes, setHiddenCodes] = useState([]);
+
+  const pendingStatuses = ['SUBMITTED', 'ASSIGNED', 'UNDER_REVIEW', 'PENDING'];
+
+  const rawApplications = Array.isArray(data)
+    ? data
+    : Array.isArray(data?.data)
+      ? data.data
+      : Array.isArray(data?.applications)
+        ? data.applications
+        : Array.isArray(data?.items)
+          ? data.items
+          : [];
+
+  const applications = rawApplications.filter((a) => {
+    const code = String(a?.application_code || a?.application_id || '');
+    const status = String(a?.application_status || '').toUpperCase();
+    return !hiddenCodes.includes(code) && pendingStatuses.includes(status);
+  });
+
+  async function review(app, decision, createCase = false) {
+    const code = String(app?.application_code || app?.application_id || '');
+
+    setMsg('');
+    setLocalError('');
+
+    try {
+      await phase3Api.reviewApplication(app.application_code, {
+        decision,
+        notes: decision === 'REJECTED' ? 'غير مستوفي الشروط' : 'تمت المراجعة',
+        create_case: createCase,
+        required_amount: app.requested_amount,
+        case_title: `حالة ${app.full_name || ''}`,
+        documents_verified: true,
+        is_monthly_case: true,
+      });
+
+      if (decision !== 'UNDER_REVIEW') {
+        setHiddenCodes((prev) => (prev.includes(code) ? prev : [...prev, code]));
+      }
+
+      setMsg(
+        decision === 'REJECTED'
+          ? 'تم رفض الطلب ولن يظهر مرة أخرى في مراجعة الطلبات'
+          : decision === 'APPROVED'
+            ? 'تم قبول الطلب وإنشاء الحالة ولن يظهر مرة أخرى في مراجعة الطلبات'
+            : 'تم حفظ قرار المراجعة'
+      );
+
+      await refresh();
+    } catch (e) {
+      setLocalError(e.message || String(e));
+    }
+  }
+
+  return (
+    <>
+      <PageTitle
+        icon={ClipboardCheck}
+        title="مراجعة الطلبات"
+        subtitle="قبول / رفض / إنشاء حالة للمتبرعين"
+        action={<Button variant="outline" onClick={refresh}>تحديث</Button>}
+      />
+
+      <ErrorBox error={error || localError} />
+      <SuccessBox message={msg} />
+
+      {loading ? (
+        <LoadingBox />
+      ) : applications.length === 0 ? (
+        <Card>
+          <p className="text-center text-sm font-bold text-slate-500">
+            لا توجد طلبات جديدة تحتاج إلى مراجعة
+          </p>
+        </Card>
+      ) : (
+        <div className="grid gap-3">
+          {applications.map((a) => (
+            <Card key={a.application_id || a.application_code}>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-lg font-black">{a.application_code} - {a.full_name}</h3>
+                  <p className="text-sm text-slate-500">
+                    {a.support_type_name_ar} | {money(a.requested_amount)} ج | {a.national_id}
+                  </p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    <Badge tone="blue">{statusLabel(a.application_status)}</Badge>
+                    <Badge tone="amber">Score {a.priority_score || 0}</Badge>
+                    <Badge tone={a.eligibility_status === 'ELIGIBLE' ? 'emerald' : 'amber'}>
+                      {statusLabel(a.eligibility_status)}
+                    </Badge>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <Button onClick={() => review(a, 'APPROVED', true)}>
+                    قبول + إنشاء حالة
+                  </Button>
+                  <Button variant="outline" onClick={() => review(a, 'UNDER_REVIEW')}>
+                    مراجعة
+                  </Button>
+                  <Button variant="danger" onClick={() => review(a, 'REJECTED')}>
+                    رفض
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+
+
+function ManageCasesPage({ user }) { const { loading, error, data, refresh } = useAsync(() => phase3Api.adminCases(user.organization_id), [user.organization_id]); async function publish(c) { await phase3Api.updateCase(c.case_id, { case_status: 'PUBLISHED', is_public: true, donation_enabled: true }); refresh(); } return <><PageTitle icon={Package} title="إدارة الحالات" subtitle="عرض ونشر وإغلاق الحالات" action={<Button variant="outline" onClick={refresh}>تحديث</Button>} /><ErrorBox error={error} />{loading ? <LoadingBox /> : <div className="grid gap-3">{data?.map((c) => <Card key={c.case_id}><div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-black">{c.case_code} - {c.case_title}</h3><p className="text-sm text-slate-500">{c.full_name} | المتبقي {money(c.remaining_amount)} ج</p><div className="mt-2 flex gap-2"><Badge tone="blue">{statusLabel(c.case_status)}</Badge><Badge tone={c.can_donate ? 'emerald' : 'amber'}>{c.eligibility_label_ar || 'غير ظاهر للمتبرع'}</Badge></div></div><Button variant="outline" onClick={() => publish(c)}>نشر للمتبرعين</Button></div></Card>)}</div>}</>; }
+
+function SupportProfilesPage({ user, government = false }) {
+  const [search, setSearch] = useState('');
+  const orgId = government ? '' : (user?.organization_id || '');
+
+  const { loading, error, data, refresh } = useAsync(
+    () => phase3Api.supportProfiles({ organization_id: orgId }),
+    [government, orgId]
+  );
+
+  const source =
+    Array.isArray(data) ? data :
+      Array.isArray(data?.profiles) ? data.profiles :
+        Array.isArray(data?.items) ? data.items :
+          Array.isArray(data?.data) ? data.data :
+            [];
+
+  const q = String(search || '').trim().toLowerCase();
+
+  const profiles = !q
+    ? source
+    : source.filter((p) => {
+      const searchableText = [
+        p.full_name,
+        p.national_id,
+        p.phone,
+        p.support_summary_ar,
+        p.organization_name_ar,
+        p.monthly_eligibility_label_ar,
+        p.fraud_level,
+      ]
+        .map((v) => String(v || '').toLowerCase())
+        .join(' ');
+
+      return searchableText.includes(q);
+    });
+
+  return (
+    <>
+      <PageTitle
+        icon={Users}
+        title="بروفايلات الدعم"
+        subtitle="هل المستفيد أخذ دعم هذا الشهر؟ مستحق أم لا؟"
+        action={<Button variant="outline" onClick={refresh}>تحديث</Button>}
+      />
+
+      <div className="mb-4">
+        <TextInput
+          placeholder="بحث بالاسم أو الرقم القومي أو الهاتف"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      <ErrorBox error={error} />
+
+      {loading ? (
+        <LoadingBox />
+      ) : (
+        <div className="grid gap-3">
+          {profiles.length === 0 ? (
+            <Card>
+              <p className="text-center text-sm font-bold text-slate-500">
+                لا توجد نتائج مطابقة للبحث
+              </p>
+            </Card>
+          ) : (
+            profiles.map((p, idx) => (
+              <Card key={p.beneficiary_id || p.national_id || p.phone || idx}>
+                <div className="flex flex-wrap justify-between gap-3">
+                  <div>
+                    <h3 className="font-black">{p.full_name || '-'}</h3>
+                    <p className="text-sm text-slate-500">
+                      {p.national_id || '-'} | {p.phone || '-'}
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-slate-500">
+                      {p.support_summary_ar || ''}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap content-start gap-2">
+                    <Badge tone={p.monthly_eligibility_status === 'ELIGIBLE' ? 'emerald' : 'amber'}>
+                      {p.monthly_eligibility_label_ar || '-'}
+                    </Badge>
+
+                    <Badge tone="blue">
+                      {money(p.amount_received_this_month || 0)} ج
+                    </Badge>
+
+                    <Badge tone={p.fraud_level === 'NONE' ? 'slate' : 'red'}>
+                      Fraud {statusLabel(p.fraud_level)}
+                    </Badge>
+                  </div>
+                </div>
+              </Card>
+            ))
+          )}
+        </div>
+      )}
+    </>
+  );
+}
+
+
+
+function Beneficiary360Page() { const [nid, setNid] = useState('2990101123456'); const [state, setState] = useState({ loading: false, error: '', data: null }); async function search() { setState({ loading: true, error: '', data: null }); try { setState({ loading: false, error: '', data: await phase3Api.beneficiary360(nid) }); } catch (e) { setState({ loading: false, error: e.message, data: null }); } } return <><PageTitle icon={Search} title="Beneficiary 360" subtitle="عرض موحد لكل الجمعيات بدون كشف تفاصيل إدارية حساسة" /><Card><div className="flex gap-2"><TextInput value={nid} onChange={(e) => setNid(e.target.value)} placeholder="الرقم القومي" /><Button onClick={search}><Search className="h-4 w-4" /> بحث</Button></div></Card><ErrorBox error={state.error} />{state.loading && <LoadingBox />}{state.data && <div className="mt-5 grid gap-4"><Card><h3 className="text-xl font-black">{state.data.profile.full_name}</h3><div className="mt-2 flex flex-wrap gap-2"><Badge tone="blue">طلبات: {state.data.applications.length}</Badge><Badge tone="violet">حالات: {state.data.cases.length}</Badge><Badge tone="amber">دعم: {state.data.support_history.length}</Badge><Badge tone="red">Fraud: {state.data.fraud_alerts.length}</Badge></div></Card><Card><h3 className="mb-3 font-black">سجل الدعم</h3>{state.data.support_history.map((s) => <p key={s.support_code} className="rounded-xl bg-slate-50 p-2 text-sm">{s.organization_name_ar} - {s.support_type_name_ar} - {money(s.amount_value)} ج</p>)}</Card></div>}</>; }
+
+function FraudPage({ user, government = false }) {
+  const [search, setSearch] = useState('');
+  const orgId = government ? '' : (user?.organization_id || '');
+
+  async function loadFraudData() {
+    const params = { organization_id: orgId };
+    const methodCandidates = ['fraudAlerts', 'fraudDetection', 'fraudRiskAlerts', 'riskAlerts', 'fraudOverview'];
+
+    let lastError = null;
+
+    for (const methodName of methodCandidates) {
+      if (typeof phase3Api?.[methodName] !== 'function') continue;
+
+      try {
+        return await phase3Api[methodName](params);
+      } catch (e1) {
+        lastError = e1;
+
+        try {
+          return await phase3Api[methodName](orgId);
+        } catch (e2) {
+          lastError = e2;
+
+          try {
+            return await phase3Api[methodName]();
+          } catch (e3) {
+            lastError = e3;
+          }
+        }
+      }
+    }
+
+    if (lastError) throw lastError;
+    return [];
+  }
+
+  const { loading, error, data, refresh } = useAsync(loadFraudData, [orgId]);
+
+  const payload = data?.data ?? data;
+
+  const source =
+    Array.isArray(payload) ? payload :
+      Array.isArray(payload?.alerts) ? payload.alerts :
+        Array.isArray(payload?.fraud_alerts) ? payload.fraud_alerts :
+          Array.isArray(payload?.items) ? payload.items :
+            Array.isArray(payload?.records) ? payload.records :
+              Array.isArray(payload?.risks) ? payload.risks :
+                [];
+
+  const q = String(search || '').trim().toLowerCase();
+
+  const alerts = !q
+    ? source
+    : source.filter((r) => {
+      const searchableText = [
+        r.full_name,
+        r.beneficiary_name,
+        r.national_id,
+        r.phone,
+        r.alert_type,
+        r.fraud_type,
+        r.risk_type,
+        r.fraud_level,
+        r.risk_level,
+        r.severity,
+        r.reason,
+        r.description,
+        r.message,
+        r.organization_name_ar,
+      ]
+        .map((v) => String(v || '').toLowerCase())
+        .join(' ');
+
+      return searchableText.includes(q);
+    });
+
+  return (
+    <>
+      <PageTitle
+        icon={ShieldAlert}
+        title="Fraud Detection"
+        subtitle="متابعة التنبيهات ومؤشرات المخاطر"
+        action={<Button variant="outline" onClick={refresh}>تحديث</Button>}
+      />
+
+      <div className="mb-4">
+        <TextInput
+          placeholder="بحث بالاسم أو الرقم القومي أو نوع التنبيه"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      <ErrorBox error={error} />
+
+      {loading ? (
+        <LoadingBox />
+      ) : alerts.length === 0 ? (
+        <Card>
+          <p className="text-center text-sm font-bold text-slate-500">
+            لا توجد تنبيهات Fraud مطابقة
+          </p>
+        </Card>
+      ) : (
+        <div className="grid gap-3">
+          {alerts.map((r, idx) => {
+            const name = r.full_name || r.beneficiary_name || r.name || '-';
+            const nationalId = r.national_id || r.beneficiary_national_id || '-';
+            const phone = r.phone || r.beneficiary_phone || '-';
+            const alertType = r.alert_type || r.fraud_type || r.risk_type || r.rule_name || 'Fraud Alert';
+            const level = String(r.fraud_level || r.risk_level || r.severity || r.alert_level || 'UNKNOWN').toUpperCase();
+            const reason = r.reason || r.description || r.message || r.alert_reason || '';
+            const amount = r.amount || r.risk_amount || r.requested_amount || r.total_amount || 0;
+
+            const tone =
+              level.includes('HIGH') || level.includes('CRITICAL') ? 'red' :
+                level.includes('MEDIUM') || level.includes('WARNING') ? 'amber' :
+                  level.includes('LOW') || level.includes('NONE') ? 'slate' :
+                    'blue';
+
+            return (
+              <Card key={r.alert_id || r.fraud_alert_id || r.id || `${nationalId}-${idx}`}>
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <h3 className="text-lg font-black">{name}</h3>
+                    <p className="text-sm text-slate-500">
+                      {nationalId} | {phone}
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-slate-500">
+                      {reason || alertType}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap content-start gap-2">
+                    <Badge tone={tone}>{level}</Badge>
+                    <Badge tone="amber">{alertType}</Badge>
+                    <Badge tone="blue">{money(amount)} ج</Badge>
+                  </div>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+    </>
+  );
+}
+
+
+
+function ManualSupportPage({ user, refs }) { const [form, setForm] = useState({ national_id: '2990101123456', organization_id: user.organization_id, support_type_id: refs.support_types?.[0]?.support_type_id || '', amount_value: 500, item_description: 'دعم يدوي', quantity: 1, notes: '' }); const [state, setState] = useState({ error: '', success: '', loading: false }); async function submit(e) { e.preventDefault(); setState({ loading: true, error: '', success: '' }); try { await phase3Api.manualSupport(form); setState({ loading: false, error: '', success: 'تم تسجيل الدعم وتحديث الاستحقاق' }); } catch (err) { setState({ loading: false, error: err.message, success: '' }); } } return <><PageTitle icon={HandCoins} title="تسجيل دعم يدوي" subtitle="دعم غذائي/عيني/نقدي يؤثر على استحقاق الشهر" /><ErrorBox error={state.error} /><SuccessBox message={state.success} /><Card><form onSubmit={submit} className="grid gap-4 md:grid-cols-2"><Field label="الرقم القومي"><TextInput value={form.national_id} onChange={(e) => setForm({ ...form, national_id: e.target.value })} /></Field><Field label="نوع الدعم"><SelectInput value={form.support_type_id} onChange={(e) => setForm({ ...form, support_type_id: e.target.value })}>{refs.support_types?.map((s) => <option key={s.support_type_id} value={s.support_type_id}>{s.support_name_ar}</option>)}</SelectInput></Field><Field label="القيمة"><TextInput type="number" value={form.amount_value} onChange={(e) => setForm({ ...form, amount_value: e.target.value })} /></Field><Field label="الوصف"><TextInput value={form.item_description} onChange={(e) => setForm({ ...form, item_description: e.target.value })} /></Field><Button type="submit">تسجيل الدعم</Button></form></Card></>; }
+
+function OrganizationsPage({ refs }) { return <><PageTitle icon={Building2} title="الجمعيات" subtitle="إدارة الجمعيات المشاركة في المنصة" /><div className="grid gap-4 md:grid-cols-3">{refs.organizations?.map((o) => <Card key={o.organization_id}><h3 className="text-xl font-black">{o.organization_name_ar}</h3><p className="text-sm text-slate-500">{o.organization_code}</p></Card>)}</div></>; }
+
+function DwhPage() { const { loading, error, data, refresh } = useAsync(() => phase3Api.dwhOverview(), []); return <><PageTitle icon={Database} title="DWH / Power BI" subtitle="Star schema ready for analytical reports" action={<Button variant="outline" onClick={refresh}>تحديث</Button>} /><ErrorBox error={error} />{loading ? <LoadingBox /> : <div className="grid gap-5"><div className="grid gap-4 md:grid-cols-4">{data?.row_counts?.map((r) => <StatCard key={r.object_name} title={r.object_name} value={r.rows_count} icon={Database} tone="blue" />)}</div><Card><h3 className="mb-3 text-xl font-black">Government Overview</h3><div className="overflow-x-auto"><table className="w-full text-sm"><tbody>{data?.government_overview?.slice(0, 8).map((r, i) => <tr key={i} className="border-t"><td className="p-2 font-bold">{r.organization_name_en || r.organization_code}</td><td className="p-2">{r.year_number}/{r.month_number}</td><td className="p-2">Applications: {r.total_applications}</td><td className="p-2">Requested: {money(r.total_requested_amount)}</td></tr>)}</tbody></table></div></Card></div>}</>; }
+
+function PipelinePage() { return <><PageTitle icon={Sparkles} title="Data Engineering Pipeline" subtitle="هذه هي المرحلة التالية بعد اكتمال المنصة التشغيلية" /><div className="grid gap-4"><Card><pre className="whitespace-pre-wrap text-sm font-bold leading-8 text-slate-700">{`3 Charity Operational DBs\n   ↓ CDC / Debezium\nKafka + Schema Registry\n   ↓ Spark Structured Streaming\nHDFS Bronze → Silver → Gold\n   ↓ Airflow + Data Quality\nSQL Server DWH Star Schema\n   ↓\nPower BI Dashboards`}</pre></Card><Card><h3 className="text-xl font-black">جاهز للخطوة القادمة</h3><p className="mt-2 text-slate-500">الـ frontend والـ backend والـ unified database والـ DWH APIs جاهزين. بعدها نكمل Kafka/HDFS/Spark/Airflow.</p></Card></div></>; }
+
+export default function App() {
+  const [user, setUser] = useState(() => JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'));
+  const [page, setPage] = useState('dashboard');
+  const refs = useAsync(() => phase3Api.referenceData(), []);
+  function onLogin(u) { localStorage.setItem(SESSION_KEY, JSON.stringify(u)); setUser(u); setPage('dashboard'); }
+  function logout() { localStorage.removeItem(SESSION_KEY); setUser(null); setPage('dashboard'); }
+  if (!user) return <LoginPage onLogin={onLogin} />;
+  if (refs.loading) return <div className="p-8" dir="rtl"><LoadingBox /></div>;
+  if (refs.error) return <div className="p-8" dir="rtl"><ErrorBox error={refs.error} /></div>;
+  const role = user.role_code;
+  const isGov = role === 'GOV_ADMIN';
+  const content = (() => {
+    if (role === 'BENEFICIARY') {
+      if (page === 'apply') return <ApplyPage user={user} refs={refs.data} setPage={setPage} />;
+      if (page === 'upload') return <UploadPage user={user} refs={refs.data} />;
+      if (page === 'tracking') return <TrackingPage user={user} />;
+      if (page === 'profile') return <BeneficiarySupportProfilePage user={user} />;
+      return <BeneficiaryDashboard user={user} setPage={setPage} />;
+    }
+    if (role === 'DONOR') {
+      if (page === 'cases') return <CasesPage user={user} />;
+      if (page === 'favorites') return <CasesPage user={user} favorites />;
+      if (page === 'donations') return <DonationHistory user={user} />;
+      return <DonorDashboard user={user} setPage={setPage} />;
+    }
+    if (role === 'CHARITY_ADMIN') {
+      if (page === 'review') return <AdminReviewPage user={user} />;
+      if (page === 'manage-cases') return <ManageCasesPage user={user} />;
+      if (page === 'support-profiles') return <SupportProfilesPage user={user} />;
+      if (page === 'beneficiary360') return <Beneficiary360Page />;
+      if (page === 'fraud') return <FraudPage user={user} />;
+      if (page === 'manual-support') return <ManualSupportPage user={user} refs={refs.data} />;
+      return <AdminDashboard user={user} setPage={setPage} />;
+    }
+    if (page === 'organizations') return <OrganizationsPage refs={refs.data} />;
+    if (page === 'support-profiles') return <SupportProfilesPage user={user} government />;
+    if (page === 'beneficiary360') return <Beneficiary360Page />;
+    if (page === 'fraud') return <FraudPage user={user} government />;
+    if (page === 'dwh') return <DwhPage />;
+    if (page === 'pipeline') return <PipelinePage />;
+    return <AdminDashboard user={user} government={isGov} setPage={setPage} />;
+  })();
+  return <Layout user={user} page={page} setPage={setPage} logout={logout}>{content}</Layout>;
+}
+

@@ -1,0 +1,63 @@
+﻿# Secrets / env
+.env
+.env.*
+!**/.env.example
+!**/.env*.example
+
+# Private backups
+.private_backups/
+*.backup*
+*.fixed_candidate*
+infra/*.before_*.yml
+infra/*.before_*.yaml
+
+# Node / React
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+build/
+.vite/
+frontend/.vite/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Logs
+*.log
+logs/
+data_engineering/**/logs/
+airflow/logs/
+
+# Generated / heavy data
+*.parquet
+*.avro
+*.orc
+*.sqlite
+*.sqlite3
+*.db
+*.bak
+*.tmp
+*.zip
+*.7z
+*.rar
+*.pbix
+
+# Generated outputs
+data_engineering/**/results/
+data_engineering/**/reports/
+data_engineering/**/output/
+data_engineering/**/outputs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary repair/debug scripts
+fix_appjsx_*.cjs
+recover_app_safe.cjs
+frontend_api_search.txt

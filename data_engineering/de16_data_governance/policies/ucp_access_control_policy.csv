@@ -1,0 +1,8 @@
+﻿"role","access_scope","sensitive_access","notes"
+"beneficiary","Own application status only","NO","Cannot view other beneficiaries"
+"donor","Anonymized public cases and donation flows","NO","No beneficiary identity exposure"
+"case_worker","Assigned applications and beneficiary profiles","YES","Access should be audited"
+"organization_admin","Organization-level operations and reports","LIMITED","Restricted to own organization"
+"data_engineer","Pipeline, lake, schema, and DWH maintenance","CONTROLLED","No unnecessary document content access"
+"bi_analyst","Gold/DWH analytical tables","MASKED","PII should be masked or aggregated"
+"platform_admin","System and infrastructure administration","CONTROLLED","Privileged access must be logged"

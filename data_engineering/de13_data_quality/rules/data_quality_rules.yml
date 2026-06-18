@@ -1,0 +1,29 @@
+﻿data_quality_rules:
+  silver:
+    beneficiaries:
+      - source_org must not be null
+      - beneficiary record count must be greater than 0
+    applications:
+      - source_org must not be null
+      - application record count must be greater than 0
+    cases:
+      - target_amount should be non-negative when available
+      - collected_amount should be non-negative when available
+    donations:
+      - donation amount should be positive when available
+    inventory_transactions:
+      - quantity should be positive when available
+
+  gold:
+    dimensions:
+      - surrogate keys must not be null
+      - organization_sk must not be null
+    facts:
+      - fact keys must not be null
+      - measures should be valid numeric values
+      - row counts must be greater than 0
+
+  dwh:
+    - Gold SQL Server tables must exist
+    - Gold SQL Server tables must have rows
+    - DWH row counts should match Gold layer row counts

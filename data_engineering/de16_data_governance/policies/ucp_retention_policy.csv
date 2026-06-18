@@ -1,0 +1,7 @@
+﻿"layer","dataset","retention_period","reason","action_after_retention"
+"bronze","raw CDC events","90 days","Raw immutable events are kept temporarily for replay and audit","archive or purge"
+"silver","cleansed operational entities","3 years","Operational analysis and cross-charity history","archive"
+"gold","analytics dimensions and facts","5 years","Long-term analytics and trend analysis","archive"
+"dwh","gold schema tables","5 to 7 years","Business reporting and financial audit","archive"
+"documents","beneficiary documents","5 years or legal requirement","Case verification and compliance","secure deletion"
+"observability","monitoring and quality reports","1 year","Operational audit and troubleshooting","archive"
